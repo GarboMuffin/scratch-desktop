@@ -1,3 +1,4 @@
+const {ipcRenderer} = require('electron');
 const path = require('path');
 
 /**
@@ -19,15 +20,8 @@ class ElectronStorageHelper {
         assetId = path.basename(assetId);
         dataFormat = path.basename(dataFormat);
 
-        // eslint-disable-next-line no-undef
-        return fetch(`assets/${assetId}.${dataFormat}`)
-            .then(r => {
-                if (r.ok) {
-                    return r.arrayBuffer();
-                }
-                throw new Error(`Unexpected status code ${r.status}`);
-            })
-            .then(arrayBuffer => new this.parent.Asset(assetType, assetId, dataFormat, Buffer.from(arrayBuffer)));
+        return ipcRenderer.invoke('read-library-file', `${assetId}.${dataFormat}`)
+            .then(buffer => new this.parent.Asset(assetType, assetId, dataFormat, Buffer.from(buffer)));
     }
 }
 

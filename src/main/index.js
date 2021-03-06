@@ -417,6 +417,15 @@ ipcMain.on('failed-to-load-project', (e, message) => {
     });
 });
 
+ipcMain.handle('read-library-file', async (e, file) => {
+    if (!/^[\w\d]+\.[\w\d]+$/.test(file)) {
+        throw new Error('Invalid path');
+    }
+    const assetPath = path.resolve(__static, 'assets', file);
+    const buffer = await promisify(fs.readFile)(assetPath);
+    return buffer;
+});
+
 // start loading initial project data before the GUI needs it so the load seems faster
 const initialProjectDataPromise = (async () => {
     if (argv._.length === 0) {
