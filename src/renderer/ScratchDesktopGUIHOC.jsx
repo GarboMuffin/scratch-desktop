@@ -1,4 +1,4 @@
-import {ipcRenderer, remote} from 'electron';
+import {ipcRenderer} from 'electron';
 import bindAll from 'lodash.bindall';
 import omit from 'lodash.omit';
 import PropTypes from 'prop-types';
@@ -56,12 +56,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                     e => {
                         this.props.onLoadingCompleted();
                         this.props.onLoadedProject(this.props.loadingState, false);
-                        remote.dialog.showMessageBox(remote.getCurrentWindow(), {
-                            type: 'error',
-                            title: 'Failed to load project',
-                            message: 'Invalid or corrupt project file.',
-                            detail: e.message
-                        });
+                        ipcRenderer.send('failed-to-load-project', e.message);
 
                         // this effectively sets the default project ID
                         // TODO: maybe setting the default project ID should be implicit in `requestNewProject`

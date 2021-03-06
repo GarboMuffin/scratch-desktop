@@ -173,6 +173,7 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
+            enableRemoteModule: false,
             preload: path.resolve(__dirname, 'preload.js')
         },
         ...browserWindowOptions
@@ -405,6 +406,15 @@ ipcMain.on('open-about-window', () => {
 
 ipcMain.on('open-privacy-policy-window', () => {
     _windows.privacy.show();
+});
+
+ipcMain.on('failed-to-load-project', (e, message) => {
+    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+        type: 'error',
+        title: 'Failed to load project',
+        message: 'Invalid or corrupt project file.',
+        detail: message
+    });
 });
 
 // start loading initial project data before the GUI needs it so the load seems faster
