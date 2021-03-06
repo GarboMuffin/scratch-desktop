@@ -9,5 +9,8 @@ module.exports = {
         react: {
             version: '16.2' // Prevent 16.3 lifecycle method errors
         }
+    },
+    globals: {
+        ScratchDesktop: false // from preload script
     }
 };

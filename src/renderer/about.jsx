@@ -17,7 +17,7 @@ const AboutElement = () => (
             <table className={styles.aboutDetails}><tbody>
                 {
                     ['Electron', 'Chrome', 'Node'].map(component => {
-                        const componentVersion = process.versions[component.toLowerCase()];
+                        const componentVersion = ScratchDesktop.versions[component.toLowerCase()];
                         return <tr key={component}><td>{component}</td><td>{componentVersion}</td></tr>;
                     })
                 }

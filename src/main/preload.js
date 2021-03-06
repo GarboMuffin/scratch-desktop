@@ -2,7 +2,8 @@ const {contextBridge, ipcRenderer} = require('electron');
 const sourceMapSupport = require('source-map-support/source-map-support.js');
 
 contextBridge.exposeInMainWorld('ScratchDesktop', {
-    sourceMapSupport
+    sourceMapSupport,
+    versions: process.versions
 });
 
 contextBridge.exposeInMainWorld('electron', {
