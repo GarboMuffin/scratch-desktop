@@ -171,7 +171,9 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         useContentSize: true,
         show: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.resolve(__dirname, 'preload.js')
         },
         ...browserWindowOptions
     });

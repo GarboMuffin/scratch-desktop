@@ -120,6 +120,11 @@ const makeConfig = function (defaultConfig, options) {
         }
     });
 
+    if (options.name === 'renderer') {
+        config.output.libraryTarget = 'var';
+        config.target = 'web';
+    }
+
     // If we're not on CI, enable Webpack progress output
     // Note that electron-webpack enables this by default, so use '--no-progress' to avoid double-adding this plugin
     if (!process.env.CI) {

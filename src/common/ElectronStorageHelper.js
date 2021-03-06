@@ -1,7 +1,4 @@
-const fs = require('fs');
 const path = require('path');
-
-const staticAssets = path.resolve(__static, 'assets');
 
 /**
  * Allow the storage module to load files bundled in the Electron application.
@@ -22,18 +19,15 @@ class ElectronStorageHelper {
         assetId = path.basename(assetId);
         dataFormat = path.basename(dataFormat);
 
-        return new Promise((resolve, reject) => {
-            fs.readFile(
-                path.resolve(staticAssets, `${assetId}.${dataFormat}`),
-                (err, data) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(new this.parent.Asset(assetType, assetId, dataFormat, data));
-                    }
+        // eslint-disable-next-line no-undef
+        return fetch(`assets/${assetId}.${dataFormat}`)
+            .then(r => {
+                if (r.ok) {
+                    return r.arrayBuffer();
                 }
-            );
-        });
+                throw new Error(`Unexpected status code ${r.status}`);
+            })
+            .then(arrayBuffer => new this.parent.Asset(assetType, assetId, dataFormat, Buffer.from(arrayBuffer)));
     }
 }
 

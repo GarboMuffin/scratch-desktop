@@ -2,6 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <!-- electron-webpack always inserts some weird scripts, stub require() to avoid errors -->
+    <script>
+        window.require = (m) => {
+            if (m === 'module') return {globalPaths: []};
+            if (m === 'source-map-support/source-map-support.js') return ScratchDesktop.sourceMapSupport; // from preload script
+            throw new Error("Unknown module");
+        };
+    </script>
     <style>
         body {
            background-color: #4D97FF;
