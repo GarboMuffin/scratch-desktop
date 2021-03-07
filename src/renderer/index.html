@@ -6,7 +6,7 @@
     <script>
         window.require = (m) => {
             if (m === 'module') return {globalPaths: []};
-            if (m === 'source-map-support/source-map-support.js') return ScratchDesktop.sourceMapSupport; // from preload script
+            if (m === 'source-map-support/source-map-support.js') return {install(){}};
             throw new Error("Unknown module");
         };
     </script>
